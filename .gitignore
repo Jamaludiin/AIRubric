@@ -1,0 +1,20 @@
+myvenv2/
+requirements1.txt
+
+
+.env
+
+.DS_Store
+
+# ignore the x Depricated or deleted folder
+x Depricated or deleted/
+
+# ignore the Z Page Botstrp folder
+Z Page Botstrp/
+
+# ignore the SRS.docx file
+SRS.docx
+
+
+# ignore the requirements.txt file
+requirements.txt

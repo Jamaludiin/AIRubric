@@ -1,0 +1,30 @@
+Create a new virtual environment
+python3 -m venv myvenv2
+
+Activate the virtual environment
+source myvenv2/bin/activate  # Linux or macOS
+myvenv\Scripts\activate     # Windows
+
+Install the dependencies
+pip install -r requirements.txt
+
+Run the project
+python manage.py runserver
+
+check django version
+python -m django --version  
+
+create a new project
+django-admin startproject AIRubric .
+
+
+create a new app
+python manage.py startapp users
+python manage.py startapp app
+
+
+delete the project
+rm -rf AIRubric
+
+delete the app
+rm -rf myapp

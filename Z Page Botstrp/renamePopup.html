@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rename Source</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #1a1a1a;
+        }
+        .modal-content {
+            background-color: #2d2d2d;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .form-control {
+            background-color: #1a1a1a;
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #ffffff;
+        }
+        .form-control:focus {
+            background-color: #1a1a1a;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.25);
+            color: #ffffff;
+        }
+        .btn-cancel {
+            color: #3b82f6;
+            background: transparent;
+            border: none;
+        }
+        .btn-cancel:hover {
+            color: #60a5fa;
+            background: rgba(59, 130, 246, 0.1);
+        }
+        .btn-save {
+            background-color: #3b82f6;
+            border: none;
+            color: white;
+        }
+        .btn-save:hover {
+            background-color: #2563eb;
+        }
+        .form-label {
+            color: #9ca3af;
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Rename Modal -->
+    <div class="modal fade" id="renameModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body p-4">
+                    <form>
+                        <div class="mb-4">
+                            <label for="sourceName" class="form-label">Source name*</label>
+                            <input 
+                                type="text" 
+                                class="form-control form-control-lg" 
+                                id="sourceName" 
+                                value="LLM-Based Chatbots for Mining Software Repositories- Challenge"
+                                required
+                            >
+                        </div>
+                        <div class="d-flex justify-content-end gap-2">
+                            <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-save px-4">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Button to trigger modal (for demo purposes) -->
+    <button class="btn btn-primary m-3" data-bs-toggle="modal" data-bs-target="#renameModal">
+        Show Rename Modal
+    </button>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Handle form submission
+        document.querySelector('form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const newName = document.getElementById('sourceName').value;
+            // Here you would typically update the source name
+            console.log('New name:', newName);
+            // Close the modal
+            bootstrap.Modal.getInstance(document.getElementById('renameModal')).hide();
+        });
+    </script>
+</body>
+</html>

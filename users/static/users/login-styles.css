@@ -1,0 +1,97 @@
+
+
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: Arial, sans-serif;
+}
+
+.left-section {
+    background-color: #212529;
+    color: #fff;
+    padding-left: 4rem;
+    padding-right: 4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.left-section h1 {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+}
+
+.testimonial {
+    margin-top: auto;
+}
+
+.testimonial p {
+    font-size: 1.25rem;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.author {
+    text-align: end;
+    font-style: italic;
+    margin-top: 1rem;
+}
+
+.right-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f8f9fa;
+}
+
+form {
+    max-width: 400px;
+    width: 100%;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: .5rem;
+    font-weight: 600;
+}
+
+input[type="email"] {
+    padding: .5rem;
+    font-size: 1rem;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.btn-dark, .btn-outline-dark {
+    font-size: 1rem;
+    padding: .75rem;
+}
+
+.btn-outline-dark {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-outline-dark i {
+    margin-right: .5rem;
+}
+
+p.text-center {
+    font-size: .875rem;
+    margin-top: 1rem;
+}
+
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+
+
+

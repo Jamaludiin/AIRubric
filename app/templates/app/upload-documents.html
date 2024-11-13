@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Documents - AI Marking Assistant</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+</head>
+<body class="bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="#">AI Marking Assistant</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Upload</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="analysis.html">Analysis</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="review.html">Review</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="export.html">Export</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container my-5">
+        <h1 class="mb-4">Upload Documents</h1>
+        <p class="lead mb-4">Upload student responses and your rubric document through our intuitive interface.</p>
+
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title mb-4">Upload Files</h5>
+                <form method="POST" enctype="multipart/form-data" action="{% url 'app-upload' %}">
+                    {% csrf_token %} 
+                    <div class="mb-3">
+                        <label for="rubricFile" class="form-label">Rubric Document</label>
+                        <input class="form-control" type="file" name="document" id="document" accept=".pdf,.doc,.docx">
+
+                        <!-- <input class="form-control" type="file" id="document" accept=".pdf,.doc,.docx"> -->
+                    </div>
+                   <!-- <div class="mb-3">
+                        <label for="studentResponses" class="form-label">Student Responses</label>
+                        <input class="form-control" type="file" id="studentResponses" accept=".pdf,.doc,.docx" multiple>
+                    </div>-->
+                    <button type="submit" class="btn btn-primary">Upload and Proceed to Analysis</button>
+                </form>
+
+                {% if messages %}
+                    <div class="messages">
+                        {% for message in messages %}
+                        <div class="alert alert-{% if message.tags %}{{ message.tags }}{% endif %}">
+                            {{ message }}
+                        </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+<!-- Add this for debugging -->
+<script>
+    document.querySelector('form').addEventListener('submit', function(e) {
+        console.log('Form submitted');
+        // Prevent double submission
+        document.querySelector('button[type="submit"]').disabled = true;
+    });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

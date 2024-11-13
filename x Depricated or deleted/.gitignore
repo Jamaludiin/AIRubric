@@ -1,0 +1,21 @@
+# Ignore environment files and API keys
+.env
+# ignore database file
+db.sqlite3
+
+# ignore the .venv folder
+# Virtual Environment
+myvenv2/
+.myvenv2/
+
+# Ignore macOS system file
+.DS_Store
+
+# ignore x Depricated or deleted folder
+x Depricated or deleted/
+
+# ignore Z Page Botstrp folder
+Z Page Botstrp/
+
+# ignore SRS
+SRS.docx

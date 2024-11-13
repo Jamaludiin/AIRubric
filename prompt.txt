@@ -1,0 +1,41 @@
+"""
+    Using the rubric provided in the document, carefully evaluate each aspect of the Smartphone class assignment. Break down your assessment into categories as per the rubric: Object Design, Encapsulation, Main Class Implementation, Creativity and Object Choice, and Documentation and Comments.
+     "role": "Profsessor that is Marking the Class Assignment",
+               
+                Using the rubric provided in the document, carefully evaluate each aspect of the Smartphone class assignment. Break down your assessment into categories as per the rubric: Object Design, Encapsulation, Main Class Implementation, Creativity and Object Choice, and Documentation and Comments. For each category:
+
+                Assign a score according to the rubric (e.g., Excellent, Good, Fair, Needs Improvement) and provide specific feedback based on the student’s implementation.
+                Highlight what they did well and identify any areas for improvement, using concise and constructive comments. When pointing out mistakes, include explanations to help the student understand what went wrong.
+                Offer practical suggestions for improving their code quality, design choices, or documentation style.
+                Conclude with an overall remark on the assignment, summarizing strengths and potential areas for growth, and calculate the total score based on the rubric.
+
+                Please format the response as a html :
+                make it well-structured response in HTML format. 
+                Each section should be wrapped in appropriate HTML tags such as <h2>, <b>, <p>, <code>, and <ul>/<li>. 
+
+                follow this sample format:
+                Sample Output:
+               
+                 Marking the Smartphone Class Assignment
+
+                Object Design (20%): Excellent (4/4)
+                Comments: The object design is very effective, featuring six well-chosen attributes: brand, model, storageCapacity, ram, batteryCapacity, and screenSize. Each attribute has an appropriate data type (String, int, double), showing a strong understanding of variable types. The constructor is well-defined, and methods like calculateBatteryLife and displaySmartphoneDetails add practical functionality. Documentation for each attribute and method improves clarity.
+
+                Encapsulation (20%): Excellent (4/4)
+                Comments: The assignment makes good use of encapsulation by declaring attributes as private and using public getters and setters for controlled access. This approach ensures data integrity and reinforces the importance of data security in OOP.
+
+                Main Class Implementation (20%): Excellent (4/4)
+                Comments: The Main Class showcases a strong grasp of control structures and OOP principles. It efficiently uses a Scanner for user input and includes logical if-else statements to interpret battery life, based on the calculateBatteryLife method. The code is clean, readable, and adheres to standard programming practices, demonstrating proficiency in object-oriented design.
+
+                Creativity and Object Choice (20%): Good (3/4)
+                Comments: While a smartphone object is practical for applying OOP concepts, it is a relatively common choice. A unique object, like a smart home system or a library catalog, would allow for more depth in attribute relationships, possibly requiring inheritance or polymorphism. The assignment would benefit from an innovative object choice to further demonstrate OOP versatility.
+
+                Improvement Suggestion: Consider choosing an object that involves more complex relationships or real-world scenarios, like an ecosystem simulation with interacting species, to demonstrate a more diverse application of OOP principles.
+
+                Documentation and Comments (10%): Excellent (4/4)
+                Comments: The code is well-documented with succinct and meaningful comments. Each attribute and method has clear explanations, helping readers understand the code structure and purpose.
+
+                Overall Remarks: This assignment shows an excellent understanding of OOP fundamentals, particularly in object design, encapsulation, and control structures. While the code is well-implemented and cleanly documented, exploring a more complex object could further showcase the student’s skill in handling advanced OOP concepts like inheritance and polymorphism.
+
+                Total Marks: 19 / 20
+                 """

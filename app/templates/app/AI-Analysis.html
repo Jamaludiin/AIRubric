@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Analysis - AI Marking Assistant</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+</head>
+<body class="bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="#">AI Marking Assistant</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="upload.html">Upload</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Analysis</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="review.html">Review</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="export.html">Export</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container my-5">
+        <h1 class="mb-4">AI Analysis</h1>
+        <p class="lead mb-4">Our AI models analyze the responses against the rubric using LangChain and Groq API.</p>
+
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title mb-4">Analysis Progress {{ document.name }}</h5>
+                <div class="progress mb-3">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 75%"></div>
+                </div>
+                <p>Analyzing 15 of 20 student responses...</p>
+                <div class="d-flex justify-content-between align-items-center">
+                    <span>Estimated time remaining: 2 minutes</span>
+                    <button class="btn btn-primary" disabled>Proceed to Review</button>
+                </div>
+            </div>
+        </div>
+    </div>
+   
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        let attempts = 0;
+        const maxAttempts = 10;
+    
+        function startAnalysis() {
+            fetch('/ai-analysis/{{ document.id }}/', {
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'complete') {
+                    window.location.href = data.redirect_url;
+                } else if (data.status === 'error') {
+                    document.getElementById('status-message').textContent = 'Error: ' + data.message;
+                } else if (attempts < maxAttempts) {
+                    attempts++;
+                    setTimeout(startAnalysis, 5000);
+                } else {
+                    document.getElementById('status-message').textContent = 'Analysis timeout. Please try again.';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('status-message').textContent = 'An error occurred. Please try again.';
+            });
+        }
+    
+        startAnalysis();
+    });
+    </script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

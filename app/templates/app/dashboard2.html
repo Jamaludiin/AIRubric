@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NotebookLM - History Notebook</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --sidebar-width: 280px;
+        }
+        body {
+            background-color: #f8f9fa;
+        }
+        .sidebar {
+            width: var(--sidebar-width);
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            background-color: #ffffff;
+            border-right: 1px solid rgba(0,0,0,0.1);
+        }
+        .main-content {
+            margin-left: var(--sidebar-width);
+        }
+        .source-item {
+            padding: 8px 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            color: #212529;
+            text-decoration: none;
+        }
+        .source-item:hover {
+            background-color: rgba(0,0,0,0.05);
+        }
+        .source-item i {
+            margin-right: 12px;
+        }
+        .generate-card {
+            background-color: #f8f9fa;
+            border: 1px solid rgba(0,0,0,0.1);
+            border-radius: 8px;
+            padding: 16px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            height: 100%;
+        }
+        .generate-card:hover {
+            background-color: #e9ecef;
+        }
+        .chat-input {
+            background-color: #ffffff;
+            border: 1px solid rgba(0,0,0,0.1);
+            border-radius: 24px;
+        }
+        .empty-state {
+            color: #6c757d;
+            text-align: center;
+            padding: 40px;
+            background-image: radial-gradient(circle, #dee2e6 2px, transparent 2px);
+            background-size: 24px 24px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar overflow-auto">
+        <div class="p-3 border-bottom">
+            <div class="d-flex align-items-center">
+                <h5 class="mb-0">NotebookLM</h5>
+                <span class="badge bg-secondary ms-2">EXPERIMENTAL</span>
+            </div>
+        </div>
+        
+        <div class="p-3">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h6 class="mb-0">Sources <i class="bi bi-shield"></i></h6>
+                <button class="btn btn-sm btn-light"><i class="bi bi-plus"></i></button>
+            </div>
+            
+            <div class="mb-3">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="selectAll" checked>
+                    <label class="form-check-label" for="selectAll">
+                        Select all sources
+                    </label>
+                </div>
+            </div>
+
+            <div class="source-list">
+                <div class="form-check source-item">
+                    <input class="form-check-input" type="checkbox" id="source1" checked>
+                    <label class="form-check-label" for="source1">
+                        <i class="bi bi-file-pdf text-danger"></i>
+                        India Independence.p...
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Top Navigation -->
+        <div class="d-flex justify-content-between align-items-center p-3 border-bottom bg-white">
+            <h5 class="mb-0">History Notebook</h5>
+            <div>
+                <button class="btn btn-sm btn-light"><i class="bi bi-sun"></i></button>
+                <button class="btn btn-sm btn-light"><i class="bi bi-question-circle"></i></button>
+                <button class="btn btn-sm btn-light"><i class="bi bi-discord"></i> Discord</button>
+                <button class="btn btn-sm btn-primary"><i class="bi bi-share"></i> Share</button>
+            </div>
+        </div>
+
+        <div class="p-4">
+            <button class="btn btn-light mb-4">
+                <i class="bi bi-plus"></i> Add note
+            </button>
+
+            <!-- Empty State -->
+            <div class="empty-state mb-4">
+                Your saved notes will appear here
+            </div>
+
+            <!-- Notebook Guide -->
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <h5 class="mb-4">
+                        <i class="bi bi-stars"></i> Notebook guide
+                    </h5>
+
+                    <h6 class="mb-3">Generate</h6>
+                    <div class="row g-3 mb-4">
+                        <div class="col">
+                            <div class="generate-card text-center">
+                                <i class="bi bi-question-circle mb-2 d-block"></i>
+                                FAQ
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="generate-card text-center">
+                                <i class="bi bi-book mb-2 d-block"></i>
+                                Study Guide
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="generate-card text-center">
+                                <i class="bi bi-list-ul mb-2 d-block"></i>
+                                Table of Contents
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="generate-card text-center">
+                                <i class="bi bi-calendar-event mb-2 d-block"></i>
+                                Timeline
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="generate-card text-center">
+                                <i class="bi bi-file-text mb-2 d-block"></i>
+                                Briefing Doc
+                            </div>
+                        </div>
+                    </div>
+
+                    <h6 class="mb-3">Summary</h6>
+                    <p class="text-secondary">
+                        The sources discuss the reasons for India's independence in 1947, specifically focusing on the role of World War II. Historians debate whether the British voluntarily withdrew due to India's declining economic value, as argued by Judith Brown, or if independence was a result of the Indian nationalist movement's decades of struggle, as argued by Chandra et al. However, the text ultimately supports the argument that the Second World War was the primary factor in India's independence, citing factors such as Britain's economic strain, the rise of the United States as a global power, and a shift in British public opinion away from imperialism. The sources emphasize how World War II weakened Britain's ability and will to maintain control over India, ultimately leading to its independence.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chat Interface -->
+        <div class="position-fixed bottom-0 start-50 translate-middle-x p-4" style="width: calc(100% - var(--sidebar-width));">
+            <div class="d-flex align-items-center bg-white p-2 rounded-3 shadow">
+                <button class="btn btn-light btn-sm me-3">
+                    <i class="bi bi-chat"></i> View Chat
+                    <span class="badge bg-secondary ms-2">1 source</span>
+                </button>
+                <div class="flex-grow-1 position-relative">
+                    <input type="text" class="form-control chat-input" placeholder="Start typing...">
+                    <button class="btn btn-link position-absolute end-0 top-50 translate-middle-y">
+                        <i class="bi bi-arrow-right"></i>
+                    </button>
+                </div>
+                <button class="btn btn-light btn-sm ms-3">
+                    <i class="bi bi-stars"></i> Notebook guide
+                </button>
+            </div>
+            <div class="text-center mt-2">
+                <small class="text-secondary">NotebookLM may still sometimes give inaccurate responses, so you may want to confirm any facts independently.</small>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

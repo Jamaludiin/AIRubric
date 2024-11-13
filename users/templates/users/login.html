@@ -1,0 +1,37 @@
+
+{% extends "users/base.html" %}  
+{% block content %}
+            <!-- Right Section -->
+            <div class="col-md-6 right-section d-flex flex-column justify-content-center align-items-center">
+                <div class="w-100">
+                    <!-- Display success message after user is created -->
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }}">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+
+                    <h2 class="text-center mb-4">Welcome back, please log in</h2>
+                    <form class="w-75 mx-auto" method="POST" action="{% url 'users-login' %}">
+                    {% csrf_token %}
+                                                        
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Enter Username</label>
+                            <input type="text" class="form-control" id="username" name="username" placeholder="Username">
+
+                            <label for="email" class="form-label mt-3">Enter Password</label>
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                        </div>
+                        <button type="submit" class="btn btn-dark w-100 mb-3">Sign In</button>
+                        <p class="text-center">OR CONTINUE WITH</p>
+                        <button type="button" class="btn btn-outline-dark w-100"><i class="bi bi-github"></i> GitHub</button>
+                    </form>
+
+                    <p class="text-center mt-3">Don't have an account yet? <a href="{% url 'users-register' %}">Create one now</a>.</p>
+                    <p class="text-center mt-3">By clicking continue, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.</p>
+                </div>
+            </div>
+        
+{% endblock content %}
