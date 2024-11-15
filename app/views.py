@@ -237,7 +237,8 @@ def rename_document(request, document_id):
                 document.name = new_name
                 document.save()
                 messages.success(request, 'Document renamed successfully.')
-            return render(request, 'app/rename-document.html')
+                return redirect('app-dashboard')
+        return render(request, 'app/rename-document.html', {'document': document})
         
     except Document.DoesNotExist:
         messages.error(request, 'Document not found.')
