@@ -21,5 +21,5 @@ urlpatterns = [
     #path('rename/<int:document_id>/', views.rename_document, name='app-rename'),
     path('rename-document/<int:document_id>/', views.rename_document, name='rename-document'),
 
-
+    
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

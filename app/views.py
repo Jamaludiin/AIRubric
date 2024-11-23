@@ -2,9 +2,11 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 
 from .ChatPDF_Groq import ask_pdf as ask_pdf_groq
+from .ChatPDF_GroqFormatedResult import assess_pdf as ask_pdf_groq2
 from .CrewAI_LangChain import crew_result
 from .models import Document, Analysis
 import os
+import json
 
 from django.views.decorators.csrf import csrf_protect
 from django.core.files.storage import FileSystemStorage
@@ -89,10 +91,23 @@ def dashboard(request):
             
             if not analysis:
                 # If no analysis exists, create one using ask_pdf_groq
-                result = ask_pdf_groq(document.file.path, marking_prompt)
+                #result = ask_pdf_groq(document.file.path, marking_prompt)
+                result = ask_pdf_groq2(document.file.path, marking_prompt)
+                
+                # Parse and format the result
+                formatted_result = None
+                try:
+                    if isinstance(result, str):
+                        result_dict = json.loads(result)
+                        formatted_result = result_dict.get('html_output', '')
+                    elif isinstance(result, dict):
+                        formatted_result = result.get('html_output', '')
+                except json.JSONDecodeError:
+                    formatted_result = result  # Use original result if parsing fails
+                
                 analysis = Analysis.objects.create(
                     document=document,
-                    result=result
+                    result=formatted_result or result  # Fallback to original if formatting failed
                 )
                 success_message = "Analysis completed successfully."
             
@@ -243,3 +258,43 @@ def rename_document(request, document_id):
     except Document.DoesNotExist:
         messages.error(request, 'Document not found.')
     return redirect('app-dashboard')
+
+
+
+# dashboard3 to display the formated result
+"""@login_required
+def dashboardFormated(request):
+    documents = Document.objects.filter(user=request.user)
+    output = None
+    success_message = None
+    error_message = None
+
+    if request.method == "POST" and "selected_document_id" in request.POST:
+        document_id = request.POST["selected_document_id"]
+        try:
+            document = Document.objects.get(id=document_id, user=request.user)
+            analysis = document.analysis_set.first()
+            
+            if not analysis:
+                # If no analysis exists, create one using ask_pdf_groq
+                result = ask_pdf_groq2(document.file.path, marking_prompt)
+                analysis = Analysis.objects.create(
+                    document=document,
+                    result=result
+                )
+                success_message = "Analysis completed successfully."
+            
+            output = analysis.result
+            
+        except Document.DoesNotExist:
+            error_message = "Document not found."
+        except Exception as e:
+            error_message = f"Error during analysis: {str(e)}"
+
+    context = {
+        'documents': documents,
+        'output': output,
+        'success_message': success_message,
+        'error_message': error_message
+    }
+    return render(request, 'app/dashboardFormated.html', context)"""
