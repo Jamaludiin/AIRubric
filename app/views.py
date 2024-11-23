@@ -1,23 +1,18 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-
-from .ChatPDF_Groq import ask_pdf as ask_pdf_groq
-from .ChatPDF_GroqFormatedResult import assess_pdf as ask_pdf_groq2
-from .CrewAI_LangChain import crew_result
-from .models import Document, Analysis
+from django.views.decorators.csrf import csrf_protect
+from django.core.files.storage import FileSystemStorage
+from django.contrib import messages
+from django.conf import settings
+from .models import Document, Analysis, Question
 import os
 import json
 
-from django.views.decorators.csrf import csrf_protect
-from django.core.files.storage import FileSystemStorage
-from .groq_Marking import mark_assignment
-from django.contrib.auth.decorators import login_required
+from .ChatPDF_Groq import ask_pdf as ask_pdf_groq
+from .ChatPDF_GroqFormatedResult import assess_pdf as ask_pdf_groq2
+
+from .CrewAI_LangChain import crew_result
 from django.http import JsonResponse  
-# Assuming you have a Document model
-from .models import Document
-from django.contrib import messages
-
-
 
 marking_prompt = """
     As a Professor marking this assignment critically, please evaluate using all the criterai set in the rubric provided in the document:
@@ -236,7 +231,7 @@ def delete_document(request, document_id):
         # Delete the database record
         document.delete()
         messages.success(request, 'Document successfully deleted.')
-        return redirect('app-delete')
+        return redirect('app-dashboard')
     except Document.DoesNotExist:
         messages.error(request, 'Document not found.')
         return redirect('app-dashboard')
@@ -298,3 +293,116 @@ def dashboardFormated(request):
         'error_message': error_message
     }
     return render(request, 'app/dashboardFormated.html', context)"""
+
+
+
+# -------------------EXAM QUESTIONS AND ANSWERS---------------------------
+# questions-answers page, it will display the questions and answers of the chapters uploaded by the user
+
+@login_required 
+def questions_answers(request, document_id=None):
+    # Get only documents from question_document folder for the current user
+    question_document = Document.objects.filter(
+        user=request.user,
+        file__startswith='question_document/'
+    ).order_by('-uploaded_at')
+    
+    # Handle document selection and question generation
+    output = None
+    selected_document = None
+    
+    # If document_id is provided in URL (after upload) or in POST
+    if document_id or (request.method == 'POST' and 'selected_document_id' in request.POST):
+        try:
+            # Get document_id from either source
+            doc_id = document_id if document_id else request.POST['selected_document_id']
+            selected_document = Document.objects.get(
+                id=doc_id, 
+                user=request.user,
+                file__startswith='question_document/'
+            )
+            
+            # Generate questions using the ChatChapter_GroqFormatedResult
+            from .ChatChapter_GroqFormatedResult import generate_questions
+            file_path = selected_document.file.path
+            questions = generate_questions(file_path)
+            
+            # Format output for display
+            output = "<div class='formatted-assessment'>"
+            for q in questions:
+                output += f"""
+                <div class='question-card mb-4'>
+                    <h5 class='mb-3'>{q['question']}</h5>
+                    <div class='answer-section p-3 bg-dark rounded'>
+                        <h6 class='text-primary mb-2'>Answer:</h6>
+                        <p class='text-light'>{q['answer']}</p>
+                    </div>
+                    <div class='metadata mt-2'>
+                        <span class='badge bg-info me-2'>Chapter: {q['chapter']}</span>
+                        <span class='badge bg-success me-2'>Level: {q['level']}</span>
+                        <span class='badge bg-warning me-2'>Topic: {q['topic']}</span>
+                        <span class='badge bg-danger'>Bloom: {q['bloom_taxon']}</span>
+                    </div>
+                </div>
+                """
+            output += "</div>"
+            
+        except Exception as e:
+            messages.error(request, f'Error generating questions: {str(e)}')
+    
+    context = {
+        'question_document': question_document,
+        'output': output,
+        'selected_document': selected_document
+    }
+    return render(request, 'app/questions-answers.html', context)
+
+@login_required
+@csrf_protect
+def upload_question_document(request):
+    if request.method == 'POST' and request.FILES.get('document'):
+        uploaded_file = request.FILES['document']
+        try:
+            # Create media directory if it doesn't exist
+            media_root = os.path.join(settings.BASE_DIR, 'media', 'question_document')
+            os.makedirs(media_root, exist_ok=True)
+            
+            # Save the document
+            document = Document.objects.create(
+                user=request.user,
+                file=uploaded_file,
+                name=uploaded_file.name
+            )
+            
+            # Generate questions immediately after upload
+            try:
+                from .ChatChapter_GroqFormatedResult import generate_questions
+                file_path = document.file.path
+                questions = generate_questions(file_path)
+                
+                # Save questions to database
+                for q in questions:
+                    Question.objects.create(
+                        question=q['question'],
+                        answer=q['answer'],
+                        user=request.user,
+                        document=document,
+                        chapter=q['chapter'],
+                        topic=q['topic'],
+                        level=q['level'],
+                        subject=q['subject'],
+                        bloom_taxon=q['bloom_taxon']
+                    )
+                
+                messages.success(request, 'Document uploaded and questions generated successfully.')
+                return redirect('questions-answers-with-id', document_id=document.id)
+            except Exception as e:
+                messages.warning(request, f'Document uploaded but error generating questions: {str(e)}')
+                return redirect('questions-answers')
+                
+        except Exception as e:
+            messages.error(request, f'Error uploading document: {str(e)}')
+    else:
+        messages.error(request, 'Please select a file to upload.')
+    
+    return redirect('questions-answers')

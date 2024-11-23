@@ -21,5 +21,8 @@ urlpatterns = [
     #path('rename/<int:document_id>/', views.rename_document, name='app-rename'),
     path('rename-document/<int:document_id>/', views.rename_document, name='rename-document'),
 
+    #questions and answers
+    path('questions-answers/', views.questions_answers, name='questions-answers'),
+    path('upload-question-document/', views.upload_question_document, name='app-upload-question-document'),
     
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
