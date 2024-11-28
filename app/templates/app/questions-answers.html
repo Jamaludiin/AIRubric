@@ -199,7 +199,7 @@
         <div class="p-3 border-bottom border-secondary">
             <div class="d-flex align-items-center">
                 <h5 class="mb-0">Q&A</h5>
-                <span class="badge bg-secondary ms-2">BETA version</span>
+                <span class="badge bg-secondary ms-2">BETA v1 </span>
             </div>
             <div class="text-secondary">Easy and Fast</div>
         </div>
@@ -231,9 +231,9 @@
 
             <div class="source-list">
                 {% if question_document %}
-                    {% for document in question_document %}
-                        <form method="POST">
-                            {% csrf_token %}
+                    <form method="POST">
+                        {% csrf_token %}
+                        {% for document in question_document %}
                             <div class="source-item border-1 rounded justify-content-between my-2">
                                 <input class="form-check-input me-2" 
                                        type="radio" 
@@ -244,24 +244,30 @@
                                 <label for="document{{ document.id }}">
                                     <i class="bi bi-file-pdf text-danger"></i>{{ document.name|truncatechars:12 }}
                                 </label>
-                                <button type="submit" class="btn btn-sm btn-success ms-2">
-                                    <i class="bi bi-eye" style="margin: 0 auto;"></i>
-                                </button>
-                                <div class="source-menu">
-                                    <div class="dropdown">
-                                        <button class="btn btn-link btn-sm text-secondary p-0" data-bs-toggle="dropdown">
-                                            <i class="bi bi-three-dots-vertical"></i>
-                                        </button>
-                                        <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item" href="{% url 'app-rename-question-document' document.id %}"><i class="bi bi-pencil"></i>Rename source</a></li>
-                                            <li><a class="dropdown-item text-danger" href="{% url 'app-delete-question-document' document.id %}"><i class="bi bi-trash"></i>Remove source</a></li>
-                                        </ul>
+                                <div class="d-flex align-items-center">
+                                    <button type="submit" class="btn btn-sm btn-success ms-2" name="action" value="view">
+                                        <i class="bi bi-eye" style="margin: 0 auto;"></i>
+                                    </button>
+                                    <div class="source-menu">
+                                        <div class="dropdown">
+                                            <button class="btn btn-link btn-sm text-secondary p-0" data-bs-toggle="dropdown">
+                                                <i class="bi bi-three-dots-vertical"></i>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li><a class="dropdown-item" href="#" onclick="showRenameModal('{{ document.id }}', '{{ document.name }}')">
+                                                    <i class="bi bi-pencil"></i> Rename source
+                                                </a></li>
+                                                <li><a class="dropdown-item text-danger" href="{% url 'app-delete-question-document' document.id %}">
+                                                    <i class="bi bi-trash"></i> Remove source
+                                                </a></li>
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         {% endfor %}
                         <div class="d-flex align-items-center justify-content-center mt-4 mb-3">
-                            <button type="submit" class="btn btn-light btn-md">
+                            <button type="submit" class="btn btn-light btn-md" name="action" value="analyze">
                                 <i class="bi bi-stars"></i> Upload for Analysis
                             </button>
                         </div>
@@ -271,10 +277,10 @@
                 {% endif %}
             </div>
                     
-                <a href="#" class="source-item">
-                    <i class="bi bi-play-circle"></i>
-                    Forces At Play
-                </a>
+            <a href="#" class="source-item">
+                <i class="bi bi-play-circle"></i>
+                Forces At Play
+            </a>
 
 
                 <!-- Add more source items as needed 
@@ -383,6 +389,7 @@
                         These are comprehensive and truthfull marking rubric for the assignment
                         <span class="text-light">Marking rubric for the assignment</span>, 
                     -->
+
 
                    <!-- Analysis Results Section -->
                    {% if output %}

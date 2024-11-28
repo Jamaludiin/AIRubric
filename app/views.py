@@ -339,7 +339,6 @@ def questions_answers(request, document_id=None):
     output = None
     selected_document = None
     
-    # If document_id is provided in URL or in POST (analyze button clicked)
     if request.method == 'POST' and 'selected_document_id' in request.POST:
         try:
             selected_document = Document.objects.get(
@@ -348,52 +347,58 @@ def questions_answers(request, document_id=None):
                 file__startswith='question_document/'
             )
             
-            # Generate questions using the ChatChapter_GroqFormatedResult
-            from .ChatChapter_GroqFormatedResult import generate_questions
-            file_path = selected_document.file.path
-            questions = generate_questions(file_path)
+            action = request.POST.get('action', 'view')
             
-            # Save questions to database with all required fields
-            for q in questions:
-                # Create a new question instance
-                new_question = Question(
-                    question=q['question'],
-                    answer=q['answer'],
-                    user=request.user,
-                    document=selected_document,
-                    chapter=q.get('chapter', 'Chapter 1'),  # Default chapter if not provided
-                    topic=q.get('topic', 'General'),        # Default topic if not provided
-                    level=q.get('level', 'medium'),         # Default level if not provided
-                    subject=q.get('subject', 'General'),    # Default subject if not provided
-                    bloom_taxon=q.get('bloom_taxon', '1'),  # Default taxonomy level if not provided
-                    file=selected_document.file,            # Use the same file as the document
-                    name=f"Question from {selected_document.name}"  # Generate a name for the question
-                )
-                new_question.save()
+            if action == 'analyze':
+                # Generate new questions using the ChatChapter_GroqFormatedResult
+                from .ChatChapter_GroqFormatedResult import generate_questions
+                file_path = selected_document.file.path
+                questions = generate_questions(file_path)
+                
+                # Save questions to database with all required fields
+                for q in questions:
+                    new_question = Question(
+                        question=q['question'],
+                        answer=q['answer'],
+                        user=request.user,
+                        document=selected_document,
+                        chapter=q.get('chapter', 'Chapter 1'),
+                        topic=q.get('topic', 'General'),
+                        level=q.get('level', 'medium'),
+                        subject=q.get('subject', 'General'),
+                        bloom_taxon=q.get('bloom_taxon', '1'),
+                        file=selected_document.file,
+                        name=f"Question from {selected_document.name}"
+                    )
+                    new_question.save()
+                
+                messages.success(request, 'Questions generated and saved successfully.')
+            
+            # For both view and analyze actions, display the questions
+            questions = Question.objects.filter(document=selected_document, user=request.user)
             
             # Format output for display
             output = "<div class='formatted-assessment'>"
             for q in questions:
                 output += f"""
                 <div class='question-card mb-4'>
-                    <h5 class='mb-3'>{q['question']}</h5>
+                    <h5 class='mb-3'>{q.question}</h5>
                     <div class='answer-section p-3 bg-dark rounded'>
                         <h6 class='text-primary mb-2'>Answer:</h6>
-                        <p class='text-light'>{q['answer']}</p>
+                        <p class='text-light'>{q.answer}</p>
                     </div>
                     <div class='metadata mt-2'>
-                        <span class='badge bg-info me-2'>Chapter: {q.get('chapter', 'Chapter 1')}</span>
-                        <span class='badge bg-success me-2'>Level: {q.get('level', 'medium')}</span>
-                        <span class='badge bg-warning me-2'>Topic: {q.get('topic', 'General')}</span>
-                        <span class='badge bg-danger'>Bloom: {q.get('bloom_taxon', '1')}</span>
+                        <span class='badge bg-info me-2'>Chapter: {q.chapter}</span>
+                        <span class='badge bg-success me-2'>Level: {q.level}</span>
+                        <span class='badge bg-warning me-2'>Topic: {q.topic}</span>
+                        <span class='badge bg-danger'>Bloom: {q.bloom_taxon}</span>
                     </div>
                 </div>
                 """
             output += "</div>"
-            messages.success(request, 'Questions generated and saved successfully.')
             
         except Exception as e:
-            messages.error(request, f'Error generating questions: {str(e)}')
+            messages.error(request, f'Error: {str(e)}')
     
     context = {
         'question_document': question_document,
