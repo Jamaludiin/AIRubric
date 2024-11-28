@@ -1,0 +1,88 @@
+<!-- Rename Modal -->
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rename Source</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #1a1a1a;
+        }
+        .modal-content {
+            background-color: #2d2d2d;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .form-control {
+            background-color: #1a1a1a;
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #ffffff;
+        }
+        .form-control:focus {
+            background-color: #1a1a1a;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.25);
+            color: #ffffff;
+        }
+        .btn-cancel {
+            color: #3b82f6;
+            background: transparent;
+            border: none;
+        }
+        .btn-cancel:hover {
+            color: #60a5fa;
+            background: rgba(59, 130, 246, 0.1);
+        }
+        .btn-save {
+            background-color: #3b82f6;
+            border: none;
+            color: white;
+        }
+        .btn-save:hover {
+            background-color: #2563eb;
+        }
+        .form-label {
+            color: #9ca3af;
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Rename Document</h5>
+                </div>
+                <div class="card-body">
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="new_name" class="form-label">Current name: {{ document.name }}</label>
+                            <input type="text" 
+                                   class="form-control" 
+                                   id="new_name" 
+                                   name="new_name" 
+                                   value="{{ document.name }}"
+                                   required>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <a href="{% url 'questions-answers' %}" class="btn btn-secondary">Cancel</a>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

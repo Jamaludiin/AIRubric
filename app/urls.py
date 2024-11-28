@@ -24,5 +24,7 @@ urlpatterns = [
     #questions and answers
     path('questions-answers/', views.questions_answers, name='questions-answers'),
     path('upload-question-document/', views.upload_question_document, name='app-upload-question-document'),
+    path('delete-question-document/<int:document_id>/', views.delete_question_document, name='app-delete-question-document'),
+    path('rename-question-document/<int:document_id>/', views.rename_question_document, name='app-rename-question-document'),
     
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
