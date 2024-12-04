@@ -66,9 +66,6 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'questions-answers' %}">Generate Questions</a>
-                    </li>
 
                     <li class="nav-item">
                         <a class="nav-link" href="#features">Features</a>
@@ -100,6 +97,7 @@
                     <p class="lead mb-4">Leverage advanced AI models to automatically evaluate student assignments and exams, saving time while maintaining consistency and fairness.</p>
                     <div class="d-flex gap-3">
                         <a href="{% url 'app-dashboard' %}" class="btn btn-light btn-lg">Get Started</a>
+                        <a href="{% url 'questions-answers' %}" class="btn btn-outline-light btn-lg">Generate Questions</a>
                         <a href="#demo" class="btn btn-outline-light btn-lg">Watch Demo</a>
                     </div>
                 </div>
