@@ -305,14 +305,21 @@ def upload_question_document(request):
     if request.method == 'POST' and request.FILES.get('document'):
         uploaded_file = request.FILES['document']
         try:
-            # Create media directory if it doesn't exist
-            media_root = os.path.join(settings.BASE_DIR, 'media', 'question_document')
+            # Use the absolute path for media directory
+            media_root = '/Users/AIRubric/media/question_document'
             os.makedirs(media_root, exist_ok=True)
             
-            # Save the document
+            # Save file to the absolute path
+            file_path = os.path.join(media_root, uploaded_file.name)
+            with open(file_path, 'wb+') as destination:
+                for chunk in uploaded_file.chunks():
+                    destination.write(chunk)
+            
+            # Create document record with relative path for Django
+            relative_path = os.path.join('question_document', uploaded_file.name)
             document = Document.objects.create(
                 user=request.user,
-                file=uploaded_file,
+                file=relative_path,
                 name=uploaded_file.name
             )
             

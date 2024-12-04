@@ -19,5 +19,14 @@ SRS.docx
 # ignore the requirements.txt file
 requirements.txt
 
+# ignore the Z LangchainWithGroq folder
+Z LangchainWithGroq/
 
+# ignore the Z Junk files folder
+Z Junk files/   
+
+
+
+# Media files
+media/
 db.sqlite3
