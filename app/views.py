@@ -73,7 +73,13 @@ def home(request):
 
 @login_required
 def dashboard(request):
-    documents = Document.objects.filter(user=request.user)
+    # Filter documents to only show PDFs from the document/ directory
+    documents = Document.objects.filter(
+        user=request.user,
+        file__startswith='document/',
+        file__endswith='.pdf'
+    ).order_by('-uploaded_at')
+
     output = None
     success_message = None
     error_message = None
