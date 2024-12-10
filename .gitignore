@@ -38,5 +38,5 @@ media/
 db.sqlite3
 
 # ignore the instructions.txt file
-instructions.txt
+Instructions.txt
 
