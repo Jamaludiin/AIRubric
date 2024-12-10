@@ -30,3 +30,13 @@ Z Junk files/
 # Media files
 media/
 db.sqlite3
+
+# ignore the media folder
+media/
+
+# ignore the db.sqlite3 file
+db.sqlite3
+
+# ignore the instructions.txt file
+instructions.txt
+
