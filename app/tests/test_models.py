@@ -3,8 +3,6 @@
 # python manage.py test app.tests.test_models
 
 
-
-
 from django.test import TestCase
 from django.contrib.auth.models import User
 from app.models import Document, Analysis, Question
@@ -79,6 +77,12 @@ class QuestionModelTestCase(TestCase):
         self.assertEqual(self.question.answer, "Django is a web framework.")
         self.assertEqual(self.question.chapter, "Chapter 1")
         self.assertEqual(self.question.level, "Easy")
+        self.assertEqual(self.question.subject, "Computer Science")
+        self.assertEqual(self.question. bloom_taxon, "1")
+        self.assertEqual(self.question. name, "Test Question")
+
+
+
 
     def test_question_associations(self):
         self.assertEqual(self.question.document.name, "Test Document")
