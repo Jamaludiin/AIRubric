@@ -23,9 +23,13 @@ class DocumentModelTestCase(TestCase):
         self.assertEqual(Document.objects.count(), 1)
         self.assertEqual(self.document.name, "Test Document")
         self.assertEqual(self.document.user.username, "testuser")
+        #self.assertEqual(self.document.user.password, "password")
 
     def test_document_file_path(self):
-        self.assertEqual(self.document.file, "document/testfile.pdf")
+        self.assertEqual(self.document.file, "document/testfile.pdf") 
+
+    def test_uploaded_at(self): # bad design test case
+        self.assertEqual(self.document.uploaded_at, self.document.uploaded_at)
 
 
 class AnalysisModelTestCase(TestCase):
