@@ -36,10 +36,14 @@ class ViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'app/dashboard.html')
 
-    """def test_playground_view(self):
+    def test_playground_view(self):
+        # Login before accessing the playground
+        self.client.login(username="testuser", password="password")
         response = self.client.get(reverse('blog-playground'))
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'app/playground.html')"""
+        self.assertTemplateUsed(response, 'app/playground.html')
+
+
 
     # The test is failing because it can't find the 'testfile.pdf' file. We need to create a mock file instead of trying to open a real one.
     """def test_upload_document_view(self):
